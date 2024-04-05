@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from leaveSystem.helper import pending_requests
 
 User = get_user_model()
 
@@ -34,37 +35,41 @@ def deleteSessionOrAccountData(request, key):
 def login_view(request):
     if request.method == "POST":
         # fetch post data
-        username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
-        
-        # check if user exists
-        if not User.objects.filter(username = username).exists():
-            messages.error(request, "Invalid Username")
-            return redirect(reverse("index"))
 
-        user = authenticate(request, username=username, password=password)
+        print(User.objects.all().values())
+
+        # check if user exists
+        if not User.objects.filter(email=email).exists():
+            messages.error(request, "Invalid email")
+            return redirect(reverse("login"))
+
+        # authenticate user
+        user = authenticate(request, email=email, password=password)
+
         if user is not None:
+            # user is authenticated creating session using login
             login(request, user)
-            if bool(account_data.objects.filter(username=username)):
-                obj = account_data.objects.get(username=request.user.username)
-                if obj and int(obj.value) in applications:
-                    request.session["id"]=int(obj.value)
-                else:
-                    deleteSessionOrAccountData(request,key="id")
+
+            # check if any pending applications exists
+            queryset = pending_requests(request.user.username)
+            if queryset:
+                return render(request, "leaveSystem/application_view.html", {
+                    "applications" : queryset
+                })
+            
+            # if there is no pending request
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "leaveSystem/login.html", {
-                "message":"Invalid Credentials"
-            })
+            messages.error(request, "Invalid Credentials")
+            return render(request, "leaveSystem/login.html")
     else:
         return render(request, "leaveSystem/login.html")
 
+@login_required(login_url="login")
 def logout_view(request):
-    if not account_data.objects.filter(username=request.user.username) and "id" in request.session and request.session["id"] in applications:
-        record = account_data(username=request.user.username, 
-                                    key="id", 
-                                    value=str(request.session["id"]))
-        record.save()
+    # logout and delete session
     logout(request)
     return HttpResponseRedirect(reverse("login"))
 

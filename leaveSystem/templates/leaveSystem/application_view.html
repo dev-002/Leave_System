@@ -2,18 +2,21 @@
 
 {% block body %}
 
-<ul>
-{% if application %}
-    <h1>Name: {{application.name}}</h1>
-    <h1>Start Date: {{application.fromDate}}</h1>
-    <h1>To Date: {{application.toDate}}</h1>
-    {% if application.status == -1 %}
-        <p>Pending</p>
-    {% elif application.status == 0 %}
-        <p>Rejected</p>
-    {% else %}
-        <p>Approved</p>
-    {% endif %}
+{% if applications %}
+    <ul>
+    {% for application in applications %}
+        <h1>Name: {{application.username}}</h1>
+        <h1>Start Date: {{application.fromDate}}</h1>
+        <h1>To Date: {{application.toDate}}</h1>
+        {% if application.status == -1 %}
+            <p>Pending</p>
+        {% elif application.status == 0 %}
+            <p>Rejected</p>
+        {% else %}
+            <p>Approved</p>
+        {% endif %}
+    {% endfor %}
+    </ul>
 {% else %}
     <h1>No applications</h1>
     <a href="{% url 'application' %}">Leave Application</a>

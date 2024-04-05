@@ -2,7 +2,7 @@ from django.db import models
 from accounts.models import Role
 
 class Application(models.Model):
-    name=models.CharField(max_length=255)
+    username=models.CharField(max_length=255)
     rollno=models.IntegerField()
     phoneno=models.IntegerField()
     fatherName=models.CharField(max_length=255)
@@ -15,7 +15,19 @@ class Application(models.Model):
     toDate=models.DateField()
     reason = models.CharField(max_length=500)
     parentContact=models.IntegerField()
-    status=models.IntegerField()
+
+    # status choices
+    PENDING = -1
+    REJECTED = 0
+    APPROVED = 1
+    STATUS_CHOICES = (
+        (PENDING, "Pending"),
+        (REJECTED, 'Rejected'),
+        (APPROVED, 'Approved'),
+    )
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=True, null=True)
+
+    # role
     role=models.ForeignKey(Role, related_name="applications", on_delete=models.CASCADE, null=True)
 
 class account_data(models.Model):
