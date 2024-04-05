@@ -75,33 +75,12 @@ def logout_view(request):
 
 @login_required(login_url="login")
 def application(request):
-    if "id" in request.session and request.session["id"] in applications:
-        return HttpResponseRedirect(reverse("applicationView"))
-    elif request.method=="POST":
-        id = random.randint(0, 1000)
-        while id in applications:
-            id = random.randint(0, 1000)
-        print(request.POST.dict())
-        applications[id] = request.POST.dict()
-        applications[id]['status'] = -1
-        applications[id]['parent_responded'] = False
-        request.session["id"] = id
-        request.session.modified = True
+    if request.method=="POST":
+        # post request 
 
-        # here to be changed
-        template = render_to_string('leaveSystem/parent_confirmation.html', {
-            'id': id,
-            'application': applications[id]
-        })
-        text_content = strip_tags(template)
-        email = EmailMultiAlternatives(
-            'Leave Application Confirmation',
-            text_content,
-            settings.EMAIL_HOST_USER,
-            [applications[id]['parentEmail']]
-        )
-        email.attach_alternative(template, "text/html")
-        email.send()
+        # create application resource in db
+        Application.objects.create(username=request.user.username, rollno = request.POST.get('rollno'), phoneno = request.POST.get('phoneno'), fatherName = request.POST.get('fatherName'), branch = request.POST.get('branch'), semester = request.POST.get('semester'), hostelNumber = request.POST.get('hostelNumber'), roomNumber = request.POST.get('roomNumber'), fromDate = request.POST.get('fromDate'), time = request.POST.get('time'), toDate = request.POST.get('toDate'), reason = request.POST.get('reason'), parentContact = request.POST.get('parentContact'), role = request.user.role)
+
         return HttpResponseRedirect(reverse("applicationView"))
     else:
         return render(request, "leaveSystem/application.html", {
@@ -110,12 +89,13 @@ def application(request):
 
 @login_required(login_url="login")
 def application_view(request):
-    if "id" in request.session and request.session["id"] in applications:
+        # fetch self applications
+        queryset = pending_requests(request.user.username)
+
+        # render applications page
         return render(request, "leaveSystem/application_view.html", {
-            "application": applications[request.session["id"]]
+            "applications" : queryset
         })
-    else:
-        return render(request, "leaveSystem/application_view.html")
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)

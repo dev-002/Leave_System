@@ -8,8 +8,8 @@ class TimeInput(forms.TimeInput):
 
 class applicationForm(forms.Form):
     parentEmail=forms.CharField(label="Parent's/Guardian Email ", widget = forms.EmailInput(attrs={'class': "newLine"}))
-    email=forms.CharField(label="Email ", widget = forms.EmailInput(attrs={'class': "newLine"}))
-    name=forms.CharField(label="Name ", widget = forms.TextInput(attrs={'class': "newLine"}))
+    # email=forms.CharField(label="Email ", widget = forms.EmailInput(attrs={'class': "newLine"}))
+    # name=forms.CharField(label="Name ", widget = forms.TextInput(attrs={'class': "newLine"}))
     rollno=forms.IntegerField(label="Roll no ", widget = forms.NumberInput(attrs={'class': "newLine"}))
     phoneno=forms.IntegerField(label="Phone no ", widget = forms.NumberInput(attrs={'class': "newLine"}))
     fatherName=forms.CharField(label="Father's Name ", widget = forms.TextInput(attrs={'class': "newLine"}))

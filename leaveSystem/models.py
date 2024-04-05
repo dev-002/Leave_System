@@ -25,8 +25,11 @@ class Application(models.Model):
         (REJECTED, 'Rejected'),
         (APPROVED, 'Approved'),
     )
-    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=True, null=True)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=True, null=True, default=PENDING)
 
+    # parent response
+    parent_responded =  models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=True, null=True, default=PENDING)
+    
     # role
     role=models.ForeignKey(Role, related_name="applications", on_delete=models.CASCADE, null=True)
 
