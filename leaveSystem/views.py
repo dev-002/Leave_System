@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from leaveSystem.models import applicationModel, account_data
+from leaveSystem.models import Application, account_data
 import random
 from django.core.mail import send_mail, EmailMultiAlternatives
 from .forms import applicationForm
@@ -11,8 +11,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from . import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.contrib.auth import get_user_model
+from django.contrib import messages
 
-
+User = get_user_model()
 
 applications = {}
 
@@ -31,9 +33,15 @@ def deleteSessionOrAccountData(request, key):
 
 def login_view(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
+        # fetch post data
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         
+        # check if user exists
+        if not User.objects.filter(username = username).exists():
+            messages.error(request, "Invalid Username")
+            return redirect(reverse("index"))
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)

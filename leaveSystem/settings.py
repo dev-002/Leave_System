@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'leaveSystem',
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -82,6 +83,9 @@ DATABASES = {
     }
 }
 
+# Custom User Model
+
+AUTH_USER_MODEL = "accounts.CustomUser" 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
