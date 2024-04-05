@@ -1,0 +1,24 @@
+{% extends "leaveSystem/layout.html" %}
+
+{% block body %}
+
+<div class="container">
+
+    <h1 class="text-center">Leave Application</h1>
+
+    <form action="{% url 'application' %}" method="post">
+        <div class="application-form d-flex flex-column flex-wrap justify-content-start mx-auto">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mydiv ml-6">
+                <label>{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <input id="submit" class="bg-primary text-light" type="submit" value="Submit">
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}

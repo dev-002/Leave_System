@@ -1,0 +1,30 @@
+{% extends "leaveSystem/layout.html" %}
+
+{% block body %}
+
+<div class="box text-dark mx-auto">
+    <div class="myform">
+        <h2>Log In</h2>
+        <div id="credentials">
+            {% if message %}
+            <div class="alert alert-danger pl-1 text-center p-0" role="alert">
+                <h3>Invalid Credentials</h3>
+            </div>
+            {% endif %}
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username" required autofocus autocomplete="off">
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+        </div>
+        <input class="text-center btn btn-primary" type="submit" value="LOG IN">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

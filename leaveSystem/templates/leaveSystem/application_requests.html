@@ -1,0 +1,69 @@
+{% extends 'leaveSystem/layout.html' %}
+
+{% block body %}
+
+
+<div class="container">
+    {% for id, value in application.items %}
+        {% if value.parent_responded %}
+            {% if value.parent_response %}
+                <h3>Parent's response: Yes</h3>
+            {% else %}
+                <h3>Parent's response: No</h3>
+            {% endif %}
+        {% else %}
+            <h3>Parent's not responded</h3>
+        {% endif %}
+        <table>
+            <tr>
+                <td>Name</td>
+                <td>{{value.name}}</td>
+            </tr>
+            <tr>
+                <td>Roll No</td>
+                <td>{{value.rollno}}</td>
+            </tr>
+            <tr>
+                <td>Phone No</td>
+                <td>{{value.phoneno}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- <li></li>
+            <li></li>
+            <li>{{value.fatherName}}</li>
+            <li>{{value.branch}}</li>
+            <li>{{value.semester}}</li>
+            <li>{{value.hostelNumber}}</li>
+            <li>{{value.roomNumber}}</li>
+            <li>{{value.fromDate}}</li>
+            <li>{{value.time}}</li>
+            <li>{{value.toDate}}</li>
+            <li>{{value.reason}}</li>
+            <li>{{value.parentContact}}</li> -->
+        </table>
+            <h3 id="id_{{id}}"> </h3>
+            <img src="static/leaveSystem/Rocket.gif" alt="loading..." class="hide toggle-{{id}}" width="50" height="50">
+            <button data-id="{{id}}" class="approve disable-{{id}}">Approve</button>
+            <button data-id="{{id}}" class="reject disable-{{id}}">Reject</button>
+        {% empty %}
+            <h1>No Applications</h1>
+
+        {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+<html>
+    <body>
+        <pre>
+            Dear Sir/Ma'am,
+            Your ward wants leave from {{application.from}} to {{application.to}}
+            Reason: {{application.reason}}
+            Click on "Yes" to give permission and "No" to reject the application
+            <a href="http://127.0.0.1:8000/parent_confirmation?id={{id}}&action=1">Yes</a> <a href="http://127.0.0.1:8000/parent_confirmation?id={{id}}&action=0">No</a>
+        </pre>
+    </body>
+</html>
