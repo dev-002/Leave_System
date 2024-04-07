@@ -6,7 +6,7 @@
 
     <h1 class="text-center">Leave Application</h1>
 
-    <form action="{% url 'application' %}" method="post">
+    <form action="{% url action %}" method="post">
         <div class="application-form d-flex flex-column flex-wrap justify-content-start mx-auto">
             {% csrf_token %}
             {% for field in form %}

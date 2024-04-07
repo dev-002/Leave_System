@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+# Permission: 
+# 'self_staff_applications', 
+# 'self_student_applications',
+# 'staff_applications',
+# 'student_applications',
+# 'student_application_form',
+# 'staff_application_form'
 
 class Permission(models.Model):
     name = models.CharField(max_length=50)

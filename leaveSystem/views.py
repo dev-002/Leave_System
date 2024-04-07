@@ -13,16 +13,24 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from leaveSystem.helper import pending_requests
+from helper import pending_requests
 
 User = get_user_model()
 
 applications = {}
 
 def index(request):
+    # redirect to respective roles based on their roles
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    return HttpResponseRedirect(reverse("application"))
+
+    if request.user.role.name == "admin":
+        return redirect('admin/')
+    elif request.user.role.name == "staff":
+        return redirect('staff/')
+    else:
+        return redirect(reverse("application"))
+    # return HttpResponseRedirect(reverse("application"))
 
 @login_required(login_url="login")
 def deleteSessionOrAccountData(request, key):
@@ -32,13 +40,12 @@ def deleteSessionOrAccountData(request, key):
     else:
         del request.session[key]
 
+# for login purpose
 def login_view(request):
     if request.method == "POST":
         # fetch post data
         email = request.POST.get('email')
         password = request.POST.get('password')
-
-        print(User.objects.all().values())
 
         # check if user exists
         if not User.objects.filter(email=email).exists():
@@ -51,15 +58,7 @@ def login_view(request):
         if user is not None:
             # user is authenticated creating session using login
             login(request, user)
-
-            # check if any pending applications exists
-            queryset = pending_requests(request.user.username)
-            if queryset:
-                return render(request, "leaveSystem/application_view.html", {
-                    "applications" : queryset
-                })
-            
-            # if there is no pending request
+            # redirect to index
             return HttpResponseRedirect(reverse("index"))
         else:
             messages.error(request, "Invalid Credentials")
@@ -67,12 +66,14 @@ def login_view(request):
     else:
         return render(request, "leaveSystem/login.html")
 
+# for logout purpose
 @login_required(login_url="login")
 def logout_view(request):
     # logout and delete session
     logout(request)
     return HttpResponseRedirect(reverse("login"))
 
+# application form
 @login_required(login_url="login")
 def application(request):
     if request.method=="POST":
