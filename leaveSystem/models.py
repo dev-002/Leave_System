@@ -3,18 +3,18 @@ from accounts.models import Role
 
 class Application(models.Model):
     username=models.CharField(max_length=255)
-    rollno=models.IntegerField()
-    phoneno=models.IntegerField()
-    fatherName=models.CharField(max_length=255)
-    branch=models.CharField(max_length=255)
-    semester=models.CharField(max_length=255)
-    hostelNumber=models.CharField(max_length=255)
-    roomNumber=models.IntegerField()
-    fromDate=models.DateField()
-    time=models.TimeField()
-    toDate=models.DateField()
-    reason = models.CharField(max_length=500)
-    parentContact=models.IntegerField()
+    rollno=models.IntegerField(blank=True, null=True)
+    phoneno=models.IntegerField(blank=True, null=True)
+    fatherName=models.CharField(max_length=255, blank=True, null=True)
+    branch=models.CharField(max_length=255, blank=True, null=True)
+    semester=models.CharField(max_length=255, blank=True, null=True)
+    hostelNumber=models.CharField(max_length=255, blank=True, null=True)
+    roomNumber=models.IntegerField(blank=True, null=True)
+    fromDate=models.DateField(blank=True, null=True)
+    time=models.TimeField(blank=True, null=True)
+    toDate=models.DateField(blank=True, null=True)
+    reason = models.CharField(max_length=500, blank=True, null=True)
+    parentContact=models.IntegerField(blank=True, null=True)
 
     # status choices
     PENDING = -1
@@ -25,10 +25,10 @@ class Application(models.Model):
         (REJECTED, 'Rejected'),
         (APPROVED, 'Approved'),
     )
-    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=True, null=True, default=PENDING)
+    status = models.SmallIntegerField(choices=STATUS_CHOICES, default=PENDING)
 
     # parent response
-    parent_responded =  models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=True, null=True, default=PENDING)
+    parent_responded =  models.SmallIntegerField(choices=STATUS_CHOICES, default=PENDING)
     
     # role
     role=models.ForeignKey(Role, related_name="applications", on_delete=models.CASCADE, null=True)
