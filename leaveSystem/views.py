@@ -73,39 +73,39 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("login"))
 
 # application form
-@login_required(login_url="login")
-def application(request):
-    if request.method=="POST":
-        # post request 
+# @login_required(login_url="login")
+# def application(request):
+#     if request.method=="POST":
+#         # post request 
 
-        # create application resource in db
-        Application.objects.create(username=request.user.username, rollno = request.POST.get('rollno'), phoneno = request.POST.get('phoneno'), fatherName = request.POST.get('fatherName'), branch = request.POST.get('branch'), semester = request.POST.get('semester'), hostelNumber = request.POST.get('hostelNumber'), roomNumber = request.POST.get('roomNumber'), fromDate = request.POST.get('fromDate'), time = request.POST.get('time'), toDate = request.POST.get('toDate'), reason = request.POST.get('reason'), parentContact = request.POST.get('parentContact'), role = request.user.role)
+#         # create application resource in db
+#         Application.objects.create(username=request.user.username, rollno = request.POST.get('rollno'), phoneno = request.POST.get('phoneno'), fatherName = request.POST.get('fatherName'), branch = request.POST.get('branch'), semester = request.POST.get('semester'), hostelNumber = request.POST.get('hostelNumber'), roomNumber = request.POST.get('roomNumber'), fromDate = request.POST.get('fromDate'), time = request.POST.get('time'), toDate = request.POST.get('toDate'), reason = request.POST.get('reason'), parentContact = request.POST.get('parentContact'), role = request.user.role)
 
-        return HttpResponseRedirect(reverse("applicationView"))
-    else:
-        return render(request, "leaveSystem/application.html", {
-            "form": applicationForm()
-        })
+#         return HttpResponseRedirect(reverse("applicationView"))
+#     else:
+#         return render(request, "leaveSystem/application.html", {
+#             "form": applicationForm()
+#         })
 
-@login_required(login_url="login")
-def application_view(request):
-        # fetch self applications
-        queryset = pending_requests(request.user.username)
+# @login_required(login_url="login")
+# def application_view(request):
+#         # fetch self applications
+#         queryset = pending_requests(request.user.username)
 
-        # render applications page
-        return render(request, "leaveSystem/application_view.html", {
-            "applications" : queryset
-        })
+#         # render applications page
+#         return render(request, "leaveSystem/application_view.html", {
+#             "applications" : queryset
+#         })
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
-def application_requests(request):
-    if len(applications) > 0:
-        return render(request, "leaveSystem/application_requests.html", {
-            'application': applications
-        })
-    else:
-        return render(request, "leaveSystem/application_requests.html")
+# @login_required
+# @user_passes_test(lambda u: u.is_superuser)
+# def application_requests(request):
+#     if len(applications) > 0:
+#         return render(request, "leaveSystem/application_requests.html", {
+#             'application': applications
+#         })
+#     else:
+#         return render(request, "leaveSystem/application_requests.html")
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)

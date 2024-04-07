@@ -14,7 +14,7 @@ def index(request):
         # create application resource in db
         StaffApplication.objects.create(email=request.user.email, phoneno = request.POST.get('phoneno'), fromDate = request.POST.get('fromDate'), time = request.POST.get('time'), toDate = request.POST.get('toDate'), reason = request.POST.get('reason'), role = request.user.role)
 
-        return redirect(reverse("staffApplicationView"))
+        return redirect(reverse("staff_index"))
     else:
         # fetch pending applications from db
         queryset = StaffApplication.objects.filter(email=request.user.email, status=-1)
