@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'leaveSystem',
     'accounts',
+    'staff',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
