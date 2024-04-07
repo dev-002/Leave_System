@@ -2,6 +2,7 @@ from django.shortcuts import render, reverse, redirect
 from accounts.decorators import has_permission
 from django.http import HttpResponse
 from staff.models import StaffApplication
+from accounts.models import Role
 from .forms import applicationForm
 
 # Create your views here.
@@ -15,26 +16,26 @@ def index(request):
 
         return redirect(reverse("staffApplicationView"))
     else:
+        # fetch pending applications from db
+        queryset = StaffApplication.objects.filter(email=request.user.email, status=-1)
+
+        if queryset:
+            # render pending applications page
+            return render(request, "leaveSystem/application_view.html", {
+                "applications" : queryset
+            })
+
+        # render applications form page
         return render(request, "leaveSystem/application.html", {
             "form": applicationForm(),
             "action" : "staff_index"
         })
-
-@has_permission(perm_name='self_staff_applications')
-def pending_requests(request):
-    # fetch pending applications from db
-    queryset = StaffApplication.objects.filter(email=request.user.email, status=-1)
-    # render applications page
-    return render(request, "leaveSystem/application_view.html", {
-        "applications" : queryset
-    })
 
 @has_permission(perm_name='student_applications')
 def student_requests(request):
     # fetch pending student requests
     student = Role.objects.get(name='student')
     queryset = student.student_applications.filter(status=-1)
-    queryset = StudentApplication.objects.filter(username=username, status=-1)
     # render applications page
     return render(request, "leaveSystem/application_view.html", {
         "applications" : queryset

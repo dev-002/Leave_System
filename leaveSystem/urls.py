@@ -27,6 +27,7 @@ urlpatterns = [
     path('applicationRequests', views.application_requests, name="applicationRequests"),
     path('respond/<int:id>/<int:is_approved>', views.respond_requests, name="respondRequests"),
     path('parent_confirmation', views.parent_confirmation, name="parentConfirmation"),
-    path('staff/', include('staff.urls'), name="staff")
+    path('staff/', include('staff.urls'), name="staff"),
+    path('student/', include('student.urls'), name="student")
 ]
 

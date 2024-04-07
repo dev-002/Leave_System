@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from leaveSystem.models import Application, account_data
+from leaveSystem.models import account_data
 import random
 from django.core.mail import send_mail, EmailMultiAlternatives
 from .forms import applicationForm
@@ -13,7 +13,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from helper import pending_requests
 
 User = get_user_model()
 
@@ -29,7 +28,7 @@ def index(request):
     elif request.user.role.name == "staff":
         return redirect('staff/')
     else:
-        return redirect(reverse("application"))
+        return redirect('student/')
     # return HttpResponseRedirect(reverse("application"))
 
 @login_required(login_url="login")
