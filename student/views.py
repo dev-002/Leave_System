@@ -11,9 +11,9 @@ def index(request):
     if request.method=="POST":
         # post request 
         # create application resource in db
-        StudentApplication.objects.create(email=request.user.email, rollno = request.POST.get('rollno'), phoneno = request.POST.get('phoneno'), fatherName = request.POST.get('fatherName'), branch = request.POST.get('branch'), semester = request.POST.get('semester'), hostelNumber = request.POST.get('hostelNumber'), roomNumber = request.POST.get('roomNumber'), fromDate = request.POST.get('fromDate'), time = request.POST.get('time'), toDate = request.POST.get('toDate'), reason = request.POST.get('reason'), parentContact = request.POST.get('parentContact'), role = request.user.role)
+        StudentApplication.objects.create(email=request.user.email, parentEmail = request.POST.get('parentEmail'), rollno = request.POST.get('rollno'), phoneno = request.POST.get('phoneno'), fatherName = request.POST.get('fatherName'), branch = request.POST.get('branch'), semester = request.POST.get('semester'), hostelNumber = request.POST.get('hostelNumber'), roomNumber = request.POST.get('roomNumber'), fromDate = request.POST.get('fromDate'), time = request.POST.get('time'), toDate = request.POST.get('toDate'), reason = request.POST.get('reason'), parentContact = request.POST.get('parentContact'), role = request.user.role)
 
-        return redirect(reverse("studentApplicationView"))
+        return redirect(reverse("student_index"))
     else:
         # fetch pending applications from db
         queryset = StudentApplication.objects.filter(email=request.user.email, status=-1)
