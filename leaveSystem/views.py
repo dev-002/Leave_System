@@ -16,8 +16,6 @@ from django.contrib import messages
 
 User = get_user_model()
 
-applications = {}
-
 def index(request):
     # redirect to respective roles based on their roles
     if not request.user.is_authenticated:

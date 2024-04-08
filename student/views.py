@@ -29,3 +29,13 @@ def index(request):
             "form": applicationForm(),
             "action" : "student_index"
         })
+
+def parent_confirmation(request, id, action):
+    # update db
+    queryset = StudentApplication.objects.filter(id=id)
+    if not queryset:
+        return HttpResponse("No Response recorded")
+    queryset[0].parent_responded = action
+    queryset[0].save()
+    
+    return HttpResponse("Your Response is recorded")

@@ -51,6 +51,7 @@
     .btn.reject {
       background-color: #dc3545;
     }
+    a[href]{text-decoration: none; color: #fff !important;}
     a:link {text-decoration: none; color: #fff;}
     a:visited {text-decoration: none; color: #fff;}
     a:hover {text-decoration: none; color: #fff;}
@@ -77,8 +78,8 @@
         </tr>
     </table>
     <div class="btn-container">
-      <a href="http://127.0.0.1:8000/parent_confirmation?id={{application.id}}&action=1" class="btn approve">Approve</a>
-      <a href="http://127.0.0.1:8000/parent_confirmation?id={{id}}&action=0" class="btn reject">Reject</a>
+      <a href="http://127.0.0.1:8000/student/parent_confirmation/{{application.id}}/1" class="btn approve">Approve</a>
+      <a href="http://127.0.0.1:8000/student/parent_confirmation/{{application.id}}/0" class="btn reject">Reject</a>
     </div>
     <p>Thank you</p>
   </div>

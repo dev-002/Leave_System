@@ -44,18 +44,49 @@ class StudentApplication(models.Model):
 @receiver(post_save, sender=StudentApplication)
 def send_email(sender, instance, **kwargs):
     # send email 
+    if instance.parent_responded == -1:
+        html_message = render_to_string("student/parent_confirmation.html", {
+            'application' : instance
+        })
+        plain_message = strip_tags(html_message)
 
-    html_message = render_to_string("leaveSystem/parent_confirmation.html", {
+        message = EmailMultiAlternatives(
+            subject="Email from our Leave System",
+            body=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            to=[instance.parentEmail],
+        )
+
+        message.attach_alternative(html_message, "text/html")
+        message.send()
+    else:
+        html_message = render_to_string("student/staff_request.html", {
+            'application' : instance
+        })
+        plain_message = strip_tags(html_message)
+
+        message = EmailMultiAlternatives(
+            subject="Email from our Leave System",
+            body=plain_message,
+            from_email=settings.EMAIL_HOST_USER,
+            to=['ishanjoshiian@gmail.com'],
+        )
+
+        message.attach_alternative(html_message, "text/html")
+        message.send()
+    
+    html_message = render_to_string("student/student_update.html", {
         'application' : instance
     })
     plain_message = strip_tags(html_message)
 
     message = EmailMultiAlternatives(
-        subject="Email from our django app",
+        subject="Email from our Leave System",
         body=plain_message,
         from_email=settings.EMAIL_HOST_USER,
-        to=[instance.parentEmail],
+        to=[instance.email],
     )
 
     message.attach_alternative(html_message, "text/html")
     message.send()
+    
