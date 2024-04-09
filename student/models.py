@@ -18,7 +18,6 @@ class StudentApplication(models.Model):
     hostelNumber=models.CharField(max_length=255, blank=True, null=True)
     roomNumber=models.IntegerField(blank=True, null=True)
     fromDate=models.DateField(blank=True, null=True)
-    time=models.TimeField(blank=True, null=True)
     toDate=models.DateField(blank=True, null=True)
     reason = models.CharField(max_length=500, blank=True, null=True)
     parentContact=models.IntegerField(blank=True, null=True)
@@ -40,6 +39,9 @@ class StudentApplication(models.Model):
     # role
     role=models.ForeignKey(Role, related_name="student_applications", on_delete=models.CASCADE, null=True)
 
+    # created at
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
 
 @receiver(post_save, sender=StudentApplication)
 def send_email(sender, instance, **kwargs):
@@ -59,8 +61,8 @@ def send_email(sender, instance, **kwargs):
 
         message.attach_alternative(html_message, "text/html")
         message.send()
-    else:
-        html_message = render_to_string("student/staff_request.html", {
+    elif instance.status == -1:
+        html_message = render_to_string("leaveSystem/respond_request.html", {
             'application' : instance
         })
         plain_message = strip_tags(html_message)
@@ -69,7 +71,7 @@ def send_email(sender, instance, **kwargs):
             subject="Email from our Leave System",
             body=plain_message,
             from_email=settings.EMAIL_HOST_USER,
-            to=['ishanjoshiian@gmail.com'],
+            to=settings.STAFF_EMAIL_LIST,
         )
 
         message.attach_alternative(html_message, "text/html")

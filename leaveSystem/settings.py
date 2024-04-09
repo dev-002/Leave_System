@@ -142,3 +142,12 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+
+# Logout redirect
+LOGOUT_REDIRECT_URL = '/'
+
+
+# Emails
+ADMIN_EMAIL_LIST = ['ishanjoshiian@gmail.com']
+STAFF_EMAIL_LIST = ['ishanjoshiian@gmail.com']

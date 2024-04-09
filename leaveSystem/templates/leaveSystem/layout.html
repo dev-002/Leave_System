@@ -11,22 +11,46 @@
     <script src="{% static 'leaveSystem/script.js' %}"></script>
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-dark p-2 text-light">
-        <a href="" class="navbar-brand">
-            <img class="rounded" src="{% static 'leaveSystem/logo.jpeg' %}" alt="birla logo" height="70px" width="70px">
-            Birla Institute of Applied Sciences, Bhimtal
-        </a>
-        {% if user.is_superuser %}
-            <a class="nav-link highlight" href="{% url 'applicationRequests' %}">View Applications</a>
-            <a class="nav-link highlight" href="/admin">Admin</a>
-                <!-- <li class="nav-item active">
-                    <a class="nav-link" href="/admin">Admin<span class="sr-only"></span></a>
-                </li> -->     
-        {% endif %}
-        {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><img class="rounded" src="{% static 'leaveSystem/logo.jpeg' %}" alt="birla logo" height="70px" width="70px">
+            Birla Institute of Applied Sciences, Bhimtal</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+           {% if user.is_authenticated %}
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mx-5 mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+                    </li>
+                {% if user.role.name == 'staff' %}
+                    <li class="nav-item mx-4">
+                        <a class="nav-link" href="{% url 'studentRequests' %}">Requests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'staffHistory' %}">History</a>
+                    </li>
+                {% endif %}
+                {% if user.role.name == 'student' %}
+                    <li class="nav-item mx-4">
+                        <a class="nav-link" href="{% url 'studentHistory' %}">History</a>
+                    </li>
+                {% endif %}
+                {% if user.role.name == 'admin' %}
+                    <li class="nav-item mx-4">
+                        <a class="nav-link" href="/admin">Admin</a>
+                    </li>
+                {% endif %}
+                </ul>
+            </div>
+            
             <a href="{% url 'logout' %}" class="btn btn-primary">Log out</a>
-        {% endif %}
-    </nav>
+            {% endif %}
+        </div>
+      </nav>
+
     {% block body %}
     {% endblock %}
 </body>

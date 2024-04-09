@@ -2,25 +2,128 @@
 
 {% block body %}
 
-{% if applications %}
-    <ul>
-    {% for application in applications %}
-        <h1>Name: {{application.username}}</h1>
-        <h1>Start Date: {{application.fromDate}}</h1>
-        <h1>To Date: {{application.toDate}}</h1>
-        {% if application.status == -1 %}
-            <p>Pending</p>
-        {% elif application.status == 0 %}
-            <p>Rejected</p>
-        {% else %}
-            <p>Approved</p>
-        {% endif %}
-    {% endfor %}
-    </ul>
-{% else %}
-    <h1>No applications</h1>
-    <a href="{% url 'application' %}">Leave Application</a>
-{% endif %}
 
-<p><a href="{% url 'logout' %}">(logout)</a></p>
+<div class="container">
+    {% for application in applications %}
+        <table class="table backdrop bg-light mt-4">
+            {% if application.email %}
+            <tr>
+                <th scope="col">Email</th>
+                <td>{{application.email}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.rollno %}
+            <tr>
+                <th scope="row">Roll No</th>
+                <td>{{application.rollno}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.phoneno %}
+            <tr>
+                <th scope="row">Phone No</th>
+                <td>{{application.phoneno}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.fatherName %}
+            <tr>
+                <th scope="row">Father Name</th>
+                <td>{{application.fatherName}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.branch %}
+            <tr>
+                <th scope="row">Branch</th>
+                <td>{{application.branch}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.semester %}
+            <tr>
+                <th scope="row">Semester</th>
+                <td>{{application.semester}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.hostelNumber %}
+            <tr>
+                <th scope="row">Hostel Number</th>
+                <td>{{application.hostelNumber}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.roomNumber %}
+            <tr>
+                <th scope="row">Room Number</th>
+                <td>{{application.roomNumber}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.fromDate %}
+            <tr>
+                <th scope="row">From Date</th>
+                <td>{{application.fromDate}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.toDate %}
+            <tr>
+                <th scope="row">To Date</th>
+                <td>{{application.toDate}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.reason %}
+            <tr>
+                <th scope="row">Reason</th>
+                <td>{{application.reason}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.parentContact %}
+            <tr>
+                <th scope="row">Parent Contact</th>
+                <td>{{application.parentContact}}</td>
+            </tr>
+            {% endif %}
+
+            {% if application.status %}
+            <tr>
+                <th scope="row">Status</th>
+                <td>
+                    {% if application.status == -1 %}
+                        Pending
+                    {% elif application.status == 0 %}
+                        Rejected
+                    {% else %}
+                        Approved
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+
+            {% if application.parent_responded %}
+            <tr>
+                <th scope="row">Parent Response</th>
+                <td>
+                    {% if application.parent_responded == -1 %}
+                        Pending
+                    {% elif application.parent_responded == 0 %}
+                        Rejected
+                    {% else %}
+                        Approved
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+        </table>
+    {% empty %}
+        <h1>No Applications</h1>
+    {% endfor %}
+
+</div>
+
 {% endblock %}

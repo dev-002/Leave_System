@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import account_data
 
-admin.site.register(account_data)
+admin.site.site_url = '/'  # Removes the 'View Site' link
+admin.site.site_header = 'My Site'

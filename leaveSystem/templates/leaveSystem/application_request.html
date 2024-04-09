@@ -1,0 +1,105 @@
+{% extends 'leaveSystem/layout.html' %}
+
+
+{% block body %}
+
+<table class="table backdrop bg-light mt-4">
+    <tr>
+    {% for field in fields %}
+        <th>{{field}}</th>
+    {% endfor %}
+    </tr>
+
+    {% for application in applications %}
+    <tr>
+        {% if "Email" in fields %}
+        <td>{{ application.email }}</td>
+        {% endif %}
+
+        {% if "Parent's Email" in fields %}
+        <td>{{ application.parentEmail }}</td>
+        {% endif %}
+
+        {% if "Roll No" in fields %}
+        <td>{{ application.rollno }}</td>
+        {% endif %}
+
+        {% if "Phone No" in fields %}
+        <td>{{ application.phoneno }}</td>
+        {% endif %}
+
+        {% if "Father's Name" in fields %}
+        <td>{{ application.fatherName }}</td>
+        {% endif %}
+
+        {% if "Branch" in fields %}
+        <td>{{ application.branch }}</td>
+        {% endif %}
+
+        {% if "Semester" in fields %}
+        <td>{{ application.semester }}</td>
+        {% endif %}
+
+        {% if "Hostel Number" in fields %}
+        <td>{{ application.hostelNumber }}</td>
+        {% endif %}
+
+        {% if "Room Number" in fields %}
+        <td>{{ application.roomNumber }}</td>
+        {% endif %}
+
+        {% if "From Date" in fields %}
+        <td>{{ application.fromDate }}</td>
+        {% endif %}
+
+        {% if "To Date" in fields %}
+        <td>{{ application.toDate }}</td>
+        {% endif %}
+
+        {% if "Reason" in fields %}
+        <td>{{ application.reason }}</td>
+        {% endif %}
+
+        {% if "Parent's Contact" in fields %}
+        <td>{{ application.parentContact }}</td>
+        {% endif %}
+
+        {% if "Status" in fields %}
+        <td>
+            {% if application.status == -1 %}
+                Pending
+            {% elif application.status == 0 %}
+                Rejected
+            {% else %}
+                Approved
+            {% endif %}
+        </td>
+        {% endif %}
+
+        {% if "Parent Responded" in fields %}
+        <td>
+            {% if application.parent_responded == -1 %}
+                Pending
+            {% elif application.parent_responded == 0 %}
+                Rejected
+            {% else %}
+                Approved
+            {% endif %}
+        </td>
+        {% endif %}
+
+        {% if "Action" in fields %}
+            <td>
+                <!-- <h3 id="id_{{application.id}}"> </h3>
+                <img src="/static/leaveSystem/bear.gif" alt="loading..." class="hide toggle-{{application.id}}" width="50" height="50"> -->
+                <a href="respond/{{application.id}}/1" data-id="{{application.id}}" class="m-1 btn btn-success approve disable-{{application.id}}">Approve</a>
+                <a href="respond/{{application.id}}/0" data-id="{{application.id}}" class="m-1 btn btn-danger reject disable-{{application.id}}">Reject</a>
+            </td>
+        {% endif %}
+    </tr>
+    {% empty %}
+        <h1 class="text-center">No Applications</h1>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -17,16 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name="admin"),
     path('', views.index, name="index"),
     path('login', views.login_view, name="login"),
     path('logout', views.logout_view, name="logout"),
-    # path('application', views.application, name="application"),
-    # path('applicationView', views.application_view, name="applicationView"),
-    # path('applicationRequests', views.application_requests, name="applicationRequests"),
-    path('respond/<int:id>/<int:is_approved>', views.respond_requests, name="respondRequests"),
-    path('parent_confirmation', views.parent_confirmation, name="parentConfirmation"),
     path('staff/', include('staff.urls'), name="staff"),
     path('student/', include('student.urls'), name="student")
 ]

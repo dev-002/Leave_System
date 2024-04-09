@@ -4,5 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name="staff_index"),
-    path('studentRequests', views.student_requests, name="studentRequests"),
+    path('staff_history', views.history, name="staffHistory"),
+    path('staffRequests', views.staff_requests, name="staffRequests"),
+    path('respond/<int:id>/<int:is_approved>', views.respond_requests, name="staffRespondRequests"),
 ]
