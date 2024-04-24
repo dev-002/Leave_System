@@ -149,5 +149,5 @@ LOGOUT_REDIRECT_URL = '/'
 
 
 # Emails
-ADMIN_EMAIL_LIST = ['ishanjoshiian@gmail.com']
-STAFF_EMAIL_LIST = ['ishanjoshiian@gmail.com']
+ADMIN_EMAIL_LIST = ['bohrakajal2002@gmail.com']
+STAFF_EMAIL_LIST = ['kajalbohra115@gmail.com']
