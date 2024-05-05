@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import dj_database_url
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -25,13 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-th5&g@6%^#-!*s)&c7)*o_xwzh8e*o3gq^5clxqk*8u0!_@*o='
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG','False').lower() =='true'
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(' ')
 
 # Application definition
 
@@ -63,7 +63,7 @@ ROOT_URLCONF = 'leaveSystem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,6 +88,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+DATABASES['default']= dj_database_url.parse(os.environ.get("DATABASE_URL"))
 
 # Custom User Model
 
@@ -127,7 +129,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS=[BASE_DIR, 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -149,5 +152,5 @@ LOGOUT_REDIRECT_URL = '/'
 
 
 # Emails
-ADMIN_EMAIL_LIST = ['bohrakajal2002@gmail.com']
-STAFF_EMAIL_LIST = ['kajalbohra115@gmail.com']
+ADMIN_EMAIL_LIST = os.environ.get("ADMIN_EMAIL_LIST").split(' ')
+STAFF_EMAIL_LIST = os.environ.get("STAFF_EMAIL_LIST").split(' ')
